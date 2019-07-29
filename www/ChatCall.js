@@ -64,6 +64,7 @@ ChatCall.prototype.setterBeauty = function (success, fail, params) {
 };
 
 // 注册客户端状态变更回调方法
+// 参数: eventID 参照 src/ios/AVCallDefines.h 文件定义的枚举：AVCallStatusCode
 ChatCall.prototype.onCallEvent = function (eventID, params) {
     cordova.fireDocumentEvent('ChatCall.onCallEvent', {
         eventID: eventID,
