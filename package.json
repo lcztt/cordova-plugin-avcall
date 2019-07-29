@@ -1,0 +1,14 @@
+{
+  "name": "ChatCall",
+  "version": "0.0.1",
+  "description": "chatcall",
+  "cordova": {
+    "id": "chat1v1.chatcall",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "keywords": [],
+  "author": "demo",
+  "license": "MIT"
+}
