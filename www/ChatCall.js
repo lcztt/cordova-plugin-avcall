@@ -45,7 +45,7 @@ ChatCall.prototype.startCall = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'startCall', [params]);
 };
 
-// 调用该方法关闭通话SDK 关闭后回调
+// 调用该方法关闭通话SDK
 // 参数：无
 ChatCall.prototype.stopCall = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'stopCall', [params]);
