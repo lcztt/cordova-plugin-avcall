@@ -67,6 +67,7 @@
 {
     [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
     [[AVCallManager shareInstance] stopAVCallWith:command];
+    [AVCallManager releaseInstance];
 }
 
 - (void)switchCamera:(CDVInvokedUrlCommand *)command

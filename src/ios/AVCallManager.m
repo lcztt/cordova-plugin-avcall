@@ -73,6 +73,7 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 
 @property (nonatomic, weak) UIViewController *rootVC;
 @property (nonatomic, weak) UIView *controlView;
+@property (nonatomic, strong) UIColor *webViewBackColor;
 
 @end
 
@@ -90,6 +91,11 @@ static AVCallManager *_shareInstance = nil;
 + (void)releaseInstance
 {
     _shareInstance = nil;
+}
+
+- (void)dealloc
+{
+    NSLog(@"dealloc %@", NSStringFromClass(self.class));
 }
 
 #pragma mark - callback
@@ -124,21 +130,40 @@ static AVCallManager *_shareInstance = nil;
     NSDictionary *dict = command.arguments[0];
     AVCallInfoModel *model = [[AVCallInfoModel alloc] init];
     self.callInfo = model;
-    model.app_id = dict[@"app_id"];
-    model.token = dict[@"token"];
-    model.room_id = [dict[@"room_id"] integerValue];
+    if (![dict isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *params = @{@"code":@(1), @"desc":@"参数不完整"};
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:params];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
     
-    model.call_type = [dict[@"call_type"] integerValue];
-    model.start_uid = [dict[@"start_uid"] integerValue];
-    model.receive_uid = [dict[@"receive_uid"] integerValue];
-    model.self_uid = [dict[@"self_uid"] integerValue];
+    NSDictionary *call = dict[@"call"];
+    NSDictionary *userInfo = dict[@"userInfo"];
     
-    NSInteger screen_interval = [dict[@"screen_interval"] integerValue];
+    if (![call isKindOfClass:[NSDictionary class]] ||
+        ![userInfo isKindOfClass:[NSDictionary class]]) {
+        
+        NSDictionary *params = @{@"code":@(1), @"desc":@"参数不完整"};
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:params];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
+    model.app_id = call[@"app_id"];
+    model.token = call[@"token"];
+    model.room_id = [call[@"room_id"] integerValue];
+    
+    model.call_type = [call[@"call_type"] integerValue];
+    
+    model.start_uid = [userInfo[@"start_uid"] integerValue];
+    model.receive_uid = [userInfo[@"receive_uid"] integerValue];
+    model.self_uid = [userInfo[@"self_uid"] integerValue];
+    
+    NSInteger screen_interval = [call[@"screen_interval"] integerValue];
     if (screen_interval > 0) {
         model.screen_interval = screen_interval;
     }
     
-    NSInteger heart_interval = [dict[@"heart_interval"] integerValue];
+    NSInteger heart_interval = [call[@"heart_interval"] integerValue];
     if (heart_interval > 0) {
         model.heart_interval = heart_interval;
     }
@@ -210,13 +235,16 @@ static AVCallManager *_shareInstance = nil;
     self.rootVC = vc;
     self.controlView = vc.webView;
     
-    [self initAgoraRtc];
+    self.webViewBackColor = vc.webView.backgroundColor;
+    vc.webView.backgroundColor = [UIColor clearColor];
+    vc.webView.opaque = false;
     
+    [self initAgoraRtc];
     [self setupLocalVideoView:self.localVideoView];
     self.localVideoView.alpha = 0;
     [self.rootVC.view insertSubview:self.localVideoView belowSubview:self.controlView];
     [UIView animateWithDuration:0.25 animations:^{
-        self.localVideoView.alpha = 0;
+        self.localVideoView.alpha = 1;
     } completion:^(BOOL finished) {
         
     }];
@@ -236,6 +264,14 @@ static AVCallManager *_shareInstance = nil;
     [self stopActiveTimer];
     
     [self leaveChannel];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.localVideoView.alpha = 0;
+        self.remoteVideoView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.localVideoView removeFromSuperview];
+        [self.remoteVideoView removeFromSuperview];
+    }];
     
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     
@@ -755,7 +791,7 @@ static AVCallManager *_shareInstance = nil;
 {
     if (!_remoteVideoView) {
         _remoteVideoView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        _remoteVideoView.backgroundColor = [UIColor clearColor];
+        _remoteVideoView.backgroundColor = [UIColor redColor];
     }
     return _remoteVideoView;
 }
@@ -764,7 +800,7 @@ static AVCallManager *_shareInstance = nil;
 {
     if (!_localVideoView) {
         _localVideoView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        _localVideoView.backgroundColor = [UIColor clearColor];
+        _localVideoView.backgroundColor = [UIColor greenColor];
     }
     return _localVideoView;
 }
