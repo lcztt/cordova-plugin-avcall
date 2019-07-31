@@ -46,10 +46,48 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="ChatCall">
-                <param name="android-package" value="chat1v1.chatcall.ChatCall" />
+                <param name="android-package" value="chat1v1.chatcall.ChatCall.ChatCall" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.CALL_PHONE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_LOGS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.Camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+        </config-file>
+
+        <!--三方库-->
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
+
+        <!--lib-->
+        <source-file src="src/android/libs/armeabi-v7a/libagora-crypto.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/libs/armeabi-v7a/libagora-rtc-sdk-jni.so" target-dir="libs/armeabi-v7a"/>
+        <source-file src="src/android/libs/agora-rtc-sdk.jar" target-dir="libs"/>
+
+        <!--java 代码-->
         <source-file src="src/android/ChatCall.java" target-dir="src/chat1v1/chatcall/ChatCall" />
+        <source-file src="src/android/ChatEntity.java" target-dir="src/chat1v1/chatcall/ChatCall"/>
+        <source-file src="src/android/VideoChatPreview.java" target-dir="src/chat1v1/chatcall/ChatCall"/>
+        <!--java 代码 presenter-->
+        <source-file src="src/android/presenter/BasePresenter.java" target-dir="src/chat1v1/chatcall/ChatCall/presenter"/>
+        <source-file src="src/android/presenter/IVideoChatAtView.java" target-dir="src/chat1v1/chatcall/ChatCall/presenter"/>
+        <source-file src="src/android/presenter/VideoChatPresenter.java" target-dir="src/chat1v1/chatcall/ChatCall/presenter"/>
+        <!--java 代码 util-->
+        <source-file src="src/android/util/BackUtil.java" target-dir="src/chat1v1/chatcall/ChatCall/util"/>
+        <source-file src="src/android/util/PermissionUtil.java" target-dir="src/chat1v1/chatcall/ChatCall/util"/>
+        <source-file src="src/android/util/RingingUtil.java" target-dir="src/chat1v1/chatcall/ChatCall/util"/>
+        <!--layout-->
+        <resource-file src="src/android/layout/view_video_chat_preview.xml" target="res/layout/view_video_chat_preview.xml"/>
+        <resource-file src="src/android/layout/layout_video_chat.xml" target="res/layout/layout_video_chat.xml"/>
+
+
+
     </platform>
 </plugin>
