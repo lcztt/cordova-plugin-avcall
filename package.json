@@ -5,7 +5,8 @@
   "cordova": {
     "id": "chat1v1.chatcall",
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "keywords": [],

@@ -8,7 +8,7 @@ function ChatCall() {
 // 参数：type:1 视频，2 音频
 ChatCall.prototype.checkAuth = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'checkAuth', [params])
-}
+};
 
 // 接听者在收到通话邀请后，接听或拒绝前，需要调用该方法播放铃声
 // 点击接听后，startCall 方法内部会主动关闭铃声
@@ -17,7 +17,7 @@ ChatCall.prototype.checkAuth = function (success, fail, params) {
 // 参数：无
 ChatCall.prototype.playAudio = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'playAudio', [params])
-}
+};
 
 // 接听者拒绝通话后，调用该方法关闭铃音
 ChatCall.prototype.stopAudio = function (success, fail, params) {
@@ -59,8 +59,14 @@ ChatCall.prototype.switchCamera = function (success, fail, params) {
 
 // 调用该方法设置美颜参数，音频通话时，调用该方法无效
 // 参数：无
+// android 参数 beauty 范围（0-1）
 ChatCall.prototype.setterBeauty = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'setterBeauty', [params]);
+};
+
+// android 切换显示的view 参数无
+ChatCall.prototype.switchView = function (success, fail, params) {
+    exec(success, fail, 'ChatCall', 'switchView', [params])
 };
 
 // 注册客户端状态变更回调方法
