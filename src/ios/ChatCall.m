@@ -2,7 +2,7 @@
 #import "AVCallManager.h"
 #import "AVCallRingTool.h"
 #import "XCDevicePermission.h"
-
+#import "AVCallDefines.h"
 
 @interface ChatCall : CDVPlugin
 
@@ -13,10 +13,16 @@
 - (void)checkAuth:(CDVInvokedUrlCommand *)command
 {
     NSDictionary *dict = command.arguments[0];
+    if (![dict isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *params = @{@"code":@(1), @"desc":@"参数不完整"};
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:params];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
     NSInteger type = [dict[@"type"] integerValue];
     
     // 检查视频权限
-    if (type == 1) {
+    if (type == AVCallTypeVideo) {
         
         [XCDevicePermission checkCameraPermission:^(BOOL granted) {
             
