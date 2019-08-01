@@ -117,7 +117,7 @@ static AVCallManager *_shareInstance = nil;
     [dictM setObject:@"room_id" forKey:@(self.callInfo.room_id)];
     
     NSString *paramStr = [self jsonStringEncodedWith:dictM];
-    NSString *jsStr = [NSString stringWithFormat:@"window.CLiteAV.onPlayEvent(%@, %@)", @(code), paramStr];
+    NSString *jsStr = [NSString stringWithFormat:@"window.ChatCall.onCallEvent(%@, %@)", @(code), paramStr];
     [self.commandDelegate evalJs:jsStr];
 }
 
