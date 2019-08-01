@@ -395,6 +395,10 @@ static AVCallManager *_shareInstance = nil;
             [self startActiveTimer];
         }
     }
+    
+    NSDictionary *params = @{@"code":@(1), @"desc":@"加入房间"};
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:params];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 }
 
 /**
@@ -531,14 +535,22 @@ static AVCallManager *_shareInstance = nil;
 {
     NSLog(@"RTC：agora rtc error: ❌ %@...", @(errorCode));
     
-    if (self.callInfo.is_admin) {
+    if (_flag.hasJoinedChannel) {
         
-        NSDictionary *params = @{@"errorCode":@(errorCode)};
-        [self callbackJSWith:AVCallStatusCodeSDKError params:params];
+        if (self.callInfo.is_admin) {
+            
+            NSDictionary *params = @{@"errorCode":@(errorCode)};
+            [self callbackJSWith:AVCallStatusCodeSDKError params:params];
+        } else {
+            
+            NSDictionary *params = @{@"errorCode":@(errorCode)};
+            [self callbackJSWith:AVCallStatusCodeSDKError params:params];
+        }
     } else {
         
-        NSDictionary *params = @{@"errorCode":@(errorCode)};
-        [self callbackJSWith:AVCallStatusCodeSDKError params:params];
+        NSDictionary *params = @{@"code":@(1), @"desc":@"加入房间失败"};
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:params];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
     }
 }
 
