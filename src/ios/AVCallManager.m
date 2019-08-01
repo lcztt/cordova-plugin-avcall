@@ -114,7 +114,7 @@ static AVCallManager *_shareInstance = nil;
     }
     
     NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:params];
-    [dictM setObject:@"room_id" forKey:@(self.callInfo.room_id)];
+    [dictM setObject:@(self.callInfo.room_id) forKey:@"room_id"];
     
     NSString *paramStr = [self jsonStringEncodedWith:dictM];
     NSString *jsStr = [NSString stringWithFormat:@"window.ChatCall.onCallEvent(%@, %@)", @(code), paramStr];
@@ -803,7 +803,7 @@ static AVCallManager *_shareInstance = nil;
 {
     if (!_remoteVideoView) {
         _remoteVideoView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        _remoteVideoView.backgroundColor = [UIColor redColor];
+        _remoteVideoView.backgroundColor = [UIColor clearColor];
     }
     return _remoteVideoView;
 }
@@ -812,7 +812,7 @@ static AVCallManager *_shareInstance = nil;
 {
     if (!_localVideoView) {
         _localVideoView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        _localVideoView.backgroundColor = [UIColor greenColor];
+        _localVideoView.backgroundColor = [UIColor clearColor];
     }
     return _localVideoView;
 }
