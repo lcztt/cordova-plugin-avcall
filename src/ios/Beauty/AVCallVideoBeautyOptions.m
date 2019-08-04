@@ -49,7 +49,7 @@
         if ([self containKey:kNSUserDefaultKey_lighteningLevel]) {
             self.lighteningLevel = [self.userDefaults floatForKey:kNSUserDefaultKey_lighteningLevel];
         } else {
-            self.lighteningLevel = 0.5;
+            self.lighteningLevel = 0.7;
         }
         
         if ([self containKey:kNSUserDefaultKey_smoothnessLevel]) {
@@ -61,7 +61,7 @@
         if ([self containKey:kNSUserDefaultKey_rednessLevel]) {
             self.rednessLevel = [self.userDefaults floatForKey:kNSUserDefaultKey_rednessLevel];
         } else {
-            self.rednessLevel = 0.3;
+            self.rednessLevel = 0.1;
         }
         
         self.beautyOptions = [[AgoraBeautyOptions alloc] init];
