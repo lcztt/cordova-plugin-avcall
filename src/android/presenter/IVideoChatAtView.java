@@ -11,4 +11,6 @@ public interface IVideoChatAtView {
     void onVideoCallDuration(long duration);
 
     void onVideoCallHeart();
+
+    void onVideoCallGoldNoTimer(int duration);
 }

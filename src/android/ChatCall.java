@@ -67,6 +67,7 @@ public class ChatCall extends CordovaPlugin implements IVideoChatAtView {
     private static final int CALL_HEART = 6; // 心跳
     private static final int CALL_TAKE_SCREEN = 7; //  截屏
     private static final int CALL_DURATION = 8; // 通话时间变动
+    private static final int CALL_GOLD_NO_TIMER = 9; // 金币不足，距离挂断的倒计时
 
     private Context mContext;
     private Activity activity;
@@ -257,6 +258,11 @@ public class ChatCall extends CordovaPlugin implements IVideoChatAtView {
                 //JSONObject endCallObject = new JSONObject(args.getString(0));
                 //String roomID = endCallObject.optString("room_id");
                 finishCall();
+                return true;
+            case "goldNoTimer":
+                JSONObject goldNoObject = new JSONObject(args.getString(0));
+                int duration = Integer.parseInt(goldNoObject.optString("duration"));
+                mPresenter.setGoldNoTime(duration);
                 return true;
             case "setterBeauty":
                 JSONObject beautyObject = new JSONObject(args.getString(0));
@@ -543,6 +549,13 @@ public class ChatCall extends CordovaPlugin implements IVideoChatAtView {
         HashMap<String, Object> params = new HashMap<>();
         params.put("duration", duration);
         backEvent(CALL_DURATION, params);
+    }
+
+    @Override
+    public void onVideoCallGoldNoTimer(int duration) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("duration", duration);
+        backEvent(CALL_GOLD_NO_TIMER, params);
     }
 
     @Override

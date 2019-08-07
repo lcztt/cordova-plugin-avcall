@@ -24,6 +24,11 @@ public class VideoChatPresenter extends BasePresenter<IVideoChatAtView> {
     private long mTime;
     private long mMinTime = 0;
     private Runnable mUpdateTimeRunnable;
+    private int mGoldNoTime = 0;
+
+    public void setGoldNoTime(int goldNoTime) {
+        mGoldNoTime = goldNoTime;
+    }
 
     public VideoChatPresenter(Context context) {
         super(context);
@@ -133,6 +138,10 @@ public class VideoChatPresenter extends BasePresenter<IVideoChatAtView> {
             if (mMinTime == mHeartTime) {
                 mMinTime = 0;
                 getView().onVideoCallHeart();
+            }
+            if (mGoldNoTime > 0) {
+                mGoldNoTime--;
+                getView().onVideoCallGoldNoTimer(mGoldNoTime);
             }
             mHandler.postDelayed(this, 1000);
         }

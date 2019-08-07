@@ -10,6 +10,9 @@ import android.os.Vibrator;
 
 import java.io.IOException;
 
+/**
+ * Created by Genda on 2019-07-30.
+ */
 public class RingingUtil {
 
     private MediaPlayer mMediaPlayer;

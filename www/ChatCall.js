@@ -69,6 +69,11 @@ ChatCall.prototype.switchView = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'switchView', [params])
 };
 
+// 金币不足，距离挂断的倒计时  参数 duration 倒计时时间 （例如60秒倒计时传60）
+ChatCall.prototype.goldNoTimer = function (success, fail, params) {
+    exec(success, fail, 'ChatCall', 'goldNoTimer', [params])
+};
+
 // 注册客户端状态变更回调方法
 // 参数: eventID 参照 src/ios/AVCallDefines.h 文件定义的枚举：AVCallStatusCode
 ChatCall.prototype.onCallEvent = function (eventID, params) {
