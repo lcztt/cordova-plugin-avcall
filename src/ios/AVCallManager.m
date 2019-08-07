@@ -216,7 +216,16 @@ static AVCallManager *_shareInstance = nil;
 
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command
 {
-    if (self.callInfo.call_type == AVCallTypeVideo) {    
+    if (self.callInfo.call_type == AVCallTypeVideo) {
+        if (command.arguments.count > 0) {
+            NSDictionary *params = command.arguments[0];
+            if ([params isKindOfClass:[NSDictionary class]]) {
+                BOOL beauty = [params[@"beauty"] boolValue];
+                [self.agoraKit setBeautyEffectOptions:beauty options:self.beauthParams.beautyOptions];
+                return;
+            }
+        }
+
         [self openBeautySetterView];
     }
 }

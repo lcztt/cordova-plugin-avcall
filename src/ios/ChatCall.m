@@ -85,7 +85,7 @@
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command
 {
     [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] switchCamera:command];
+    [[AVCallManager shareInstance] setterBeauty:command];
 }
 
 @end
