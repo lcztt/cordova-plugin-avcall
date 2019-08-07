@@ -65,6 +65,7 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 
 @property (nonatomic, strong) YYTimer *activeTimer;
 @property (nonatomic, assign) NSUInteger totalChatTime;
+@property (nonatomic, assign) NSInteger countDownDuration;
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *switchGesture;
@@ -217,6 +218,7 @@ static AVCallManager *_shareInstance = nil;
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command
 {
     if (self.callInfo.call_type == AVCallTypeVideo) {
+        
         if (command.arguments.count > 0) {
             NSDictionary *params = command.arguments[0];
             if ([params isKindOfClass:[NSDictionary class]]) {
@@ -225,8 +227,21 @@ static AVCallManager *_shareInstance = nil;
                 return;
             }
         }
-
+        
         [self openBeautySetterView];
+    }
+}
+
+- (void)goldNoTimer:(CDVInvokedUrlCommand *)command
+{
+    if (command.arguments.count > 0) {
+        NSDictionary *params = command.arguments[0];
+        if ([params isKindOfClass:[NSDictionary class]]) {
+            NSInteger duration = [params[@"duration"] boolValue];
+            if (duration > 0) {
+                self.countDownDuration = duration;
+            }
+        }
     }
 }
 
@@ -608,6 +623,9 @@ static AVCallManager *_shareInstance = nil;
     
     // 更新显示通话时间
     [self updateCallDuration];
+    
+    // 更新倒计时
+    [self updateCountDown];
 }
 
 #pragma mark - Heart
@@ -676,11 +694,22 @@ static AVCallManager *_shareInstance = nil;
     [self callbackJSWith:AVCallStatusCodeDuration params:params];
 }
 
+#pragma mark - Count Down
+
+- (void)updateCountDown
+{
+    if (self.countDownDuration >= 0) {
+        NSDictionary *params = @{@"duration":@(self.countDownDuration)};
+        [self callbackJSWith:AVCallStatusCodeCountDown params:params];
+        self.countDownDuration--;
+    }
+}
+
 #pragma mark - Beauty
 
 - (void)openBeautySetterView
 {
-    [[UIApplication sharedApplication].keyWindow addSubview:self.beauthSetterView];
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self.beauthSetterView];
 }
 
 #pragma mark - AVCallBeauthSetterViewDelegate

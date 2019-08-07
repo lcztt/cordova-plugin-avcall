@@ -88,4 +88,10 @@
     [[AVCallManager shareInstance] setterBeauty:command];
 }
 
+- (void)goldNoTimer:(CDVInvokedUrlCommand *)command
+{
+    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
+    [[AVCallManager shareInstance] setterBeauty:command];
+}
+
 @end

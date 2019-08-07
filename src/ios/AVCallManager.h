@@ -22,5 +22,6 @@
 
 - (void)switchCamera:(CDVInvokedUrlCommand *)command;
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command;
+- (void)goldNoTimer:(CDVInvokedUrlCommand *)command;
 
 @end

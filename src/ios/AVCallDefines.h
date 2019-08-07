@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, AVCallStatusCode) {
     AVCallStatusCodeHeart = 6, // 心跳回调
     AVCallStatusCodeScreenshot = 7, // 截图，params:{"img_path":图片地址}
     AVCallStatusCodeDuration = 8, // 通话时长，params:{"duration":通话总秒数}
+    AVCallStatusCodeCountDown = 9, // 倒计时，params:{"duration":剩余通话秒数}
 };
 
 
