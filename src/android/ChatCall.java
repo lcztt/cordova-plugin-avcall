@@ -420,6 +420,7 @@ public class ChatCall extends CordovaPlugin implements IVideoChatAtView {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mPresenter.setGoldNoTime(0);
                     mPresenter.finishVideoChat();
                     mPresenter.detachView();
                     mPresenter = null;
