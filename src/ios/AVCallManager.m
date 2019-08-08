@@ -85,6 +85,7 @@ static AVCallManager *_shareInstance = nil;
 {
     if (!_shareInstance) {
         _shareInstance = [[AVCallManager alloc] init];
+        _shareInstance.countDownDuration = -1;
     }
     return _shareInstance;
 }
