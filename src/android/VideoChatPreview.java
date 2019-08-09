@@ -94,4 +94,9 @@ public class VideoChatPreview extends FrameLayout {
     public FrameLayout getFl_local() {
         return fl_local;
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return true;
+    }
 }
