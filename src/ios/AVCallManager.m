@@ -238,7 +238,7 @@ static AVCallManager *_shareInstance = nil;
     if (command.arguments.count > 0) {
         NSDictionary *params = command.arguments[0];
         if ([params isKindOfClass:[NSDictionary class]]) {
-            NSInteger duration = [params[@"duration"] boolValue];
+            NSInteger duration = [params[@"duration"] integerValue];
             if (duration > 0) {
                 self.countDownDuration = duration;
             }
