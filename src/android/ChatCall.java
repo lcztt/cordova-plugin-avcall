@@ -98,17 +98,19 @@ public class ChatCall extends CordovaPlugin implements IVideoChatAtView {
 
         @Override
         public void onFirstRemoteAudioFrame(int uid, int elapsed) {
-            Log.e(TAG, "onFirstRemoteAudioFrame: 收到第一帧远程 音频 流并解码成功时 uid = " + uid);
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mPresenter.setupTime(mChatEntity.call.heart_interval);
-                    if (mRingingUtil != null) {
-                        mRingingUtil.stopRing();
-                    }
-                }
-            });
-            backEvent(CALL_RECEIVE_FIST_REMOTE, new HashMap<>());
+            if (mChatEntity.call.call_type == 2) {
+                            Log.e(TAG, "onFirstRemoteAudioFrame: 收到第一帧远程 音频 流并解码成功时 uid = " + uid);
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mPresenter.setupTime(mChatEntity.call.heart_interval);
+                                    if (mRingingUtil != null) {
+                                        mRingingUtil.stopRing();
+                                    }
+                                }
+                            });
+                            backEvent(CALL_RECEIVE_FIST_REMOTE, new HashMap<>());
+                        }
         }
 
         @Override
