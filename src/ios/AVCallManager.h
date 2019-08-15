@@ -23,5 +23,6 @@
 - (void)switchCamera:(CDVInvokedUrlCommand *)command;
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command;
 - (void)goldNoTimer:(CDVInvokedUrlCommand *)command;
+- (void)muteRemoteAudio:(CDVInvokedUrlCommand *)command;
 
 @end

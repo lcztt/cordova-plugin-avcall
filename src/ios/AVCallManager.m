@@ -246,6 +246,25 @@ static AVCallManager *_shareInstance = nil;
     }
 }
 
+- (void)muteRemoteAudio:(CDVInvokedUrlCommand *)command
+{
+    if (command.arguments.count > 0) {
+        NSDictionary *params = command.arguments[0];
+        if ([params isKindOfClass:[NSDictionary class]]) {
+            [self.agoraKit muteAllRemoteAudioStreams:[params[@"mute"] boolValue]];
+            
+            NSDictionary *params = @{};
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:params];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            return;
+        }
+    }
+    
+    NSDictionary *params = @{@"code":@(1), @"desc":@"参数不完整"};
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:params];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+    
 #pragma mark - private
 
 - (void)startCall
@@ -330,10 +349,10 @@ static AVCallManager *_shareInstance = nil;
     } else if (self.callInfo.call_type == AVCallTypeAudio) {
         
         [self.agoraKit disableVideo];
-        
-        [self.agoraKit setDefaultAudioRouteToSpeakerphone:YES];
-        [self.agoraKit setAudioProfile:AgoraAudioProfileSpeechStandard scenario:AgoraAudioScenarioDefault];
     }
+    
+    [self.agoraKit setDefaultAudioRouteToSpeakerphone:YES];
+    [self.agoraKit setAudioProfile:AgoraAudioProfileSpeechStandard scenario:AgoraAudioScenarioDefault];
     
     // 管理员关闭本地音视频
     if (self.callInfo.is_admin) {
@@ -615,7 +634,7 @@ static AVCallManager *_shareInstance = nil;
     }
     
     // 截屏
-    if (self.callInfo.screen_interval > 0) {
+    if (self.callInfo.screen_interval > 0 && self.callInfo.call_type == AVCallTypeVideo) {
         BOOL needScreenshot = self.totalChatTime % self.callInfo.screen_interval == 0;
         if (needScreenshot) {
             [self processScreenshot];

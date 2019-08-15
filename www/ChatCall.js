@@ -74,6 +74,11 @@ ChatCall.prototype.goldNoTimer = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'goldNoTimer', [params])
 };
 
+// 设置远程音频静音，打开聊天时默认非静音 参数 mute 值为1 静音，0 非静音
+ChatCall.prototype.muteRemoteAudio = function (success, fail, params) {
+    exec(success, fail, 'ChatCall', 'muteRemoteAudio', [params])
+};
+
 // 注册客户端状态变更回调方法
 // 参数: eventID 参照 src/ios/AVCallDefines.h 文件定义的枚举：AVCallStatusCode
 ChatCall.prototype.onCallEvent = function (eventID, params) {

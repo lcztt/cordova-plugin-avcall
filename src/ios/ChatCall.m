@@ -94,4 +94,10 @@
     [[AVCallManager shareInstance] setterBeauty:command];
 }
 
+- (void)muteRemoteAudio:(CDVInvokedUrlCommand *)command
+{
+    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
+    [[AVCallManager shareInstance] muteRemoteAudio:command];
+}
+
 @end
