@@ -284,16 +284,20 @@ static AVCallManager *_shareInstance = nil;
     vc.webView.opaque = false;
     
     [self initAgoraRtc];
-    [self setupLocalVideoView:self.localVideoView];
-    self.localVideoView.alpha = 0;
-    [self.rootVC.view insertSubview:self.localVideoView belowSubview:self.controlView];
-    [UIView animateWithDuration:0.25 animations:^{
-        self.localVideoView.alpha = 1;
-    } completion:^(BOOL finished) {
-        
-    }];
     
-    [self.agoraKit startPreview];
+    if (!self.callInfo.is_admin) {
+        self.localVideoView.tag = self.callInfo.local_uid;
+        [self setupLocalVideoView:self.localVideoView];
+        self.localVideoView.alpha = 0;
+        [self.rootVC.view insertSubview:self.localVideoView belowSubview:self.controlView];
+        [UIView animateWithDuration:0.25 animations:^{
+            self.localVideoView.alpha = 1;
+        } completion:^(BOOL finished) {
+            
+        }];
+        
+        [self.agoraKit startPreview];
+    }
     
     [self joinChannel];
 }
@@ -394,7 +398,7 @@ static AVCallManager *_shareInstance = nil;
 - (void)setupRemoteVideoView:(UIView *)view
 {
     AgoraRtcVideoCanvas *remoteVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    remoteVideoCanvas.uid = self.callInfo.remote_uid;
+    remoteVideoCanvas.uid = view.tag;
     remoteVideoCanvas.renderMode = AgoraVideoRenderModeHidden;
     remoteVideoCanvas.view = view;
     [self.agoraKit setupRemoteVideo:remoteVideoCanvas];
@@ -403,7 +407,7 @@ static AVCallManager *_shareInstance = nil;
 - (void)setupLocalVideoView:(UIView *)view
 {
     AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    videoCanvas.uid = self.callInfo.local_uid;
+    videoCanvas.uid = view.tag;
     videoCanvas.view = view;
     videoCanvas.renderMode = AgoraVideoRenderModeHidden;
     [self.agoraKit setupLocalVideo:videoCanvas];
@@ -456,6 +460,7 @@ static AVCallManager *_shareInstance = nil;
         
         if (uid == self.callInfo.local_uid) {
             
+            self.localVideoView.tag = self.callInfo.local_uid;
             [self setupRemoteVideoView:self.localVideoView];
             self.localVideoView.frame = kSmallVideoRect;
             [self.rootVC.view insertSubview:self.localVideoView aboveSubview:self.controlView];
@@ -467,6 +472,7 @@ static AVCallManager *_shareInstance = nil;
             }];
         } else if (uid == self.callInfo.remote_uid) {
             
+            self.remoteVideoView.tag = self.callInfo.remote_uid;
             [self setupRemoteVideoView:self.remoteVideoView];
             [self.rootVC.view insertSubview:self.remoteVideoView belowSubview:self.controlView];
         }
@@ -490,6 +496,7 @@ static AVCallManager *_shareInstance = nil;
             }
             
             // 设置对方画面
+            self.remoteVideoView.tag = self.callInfo.remote_uid;
             [self setupRemoteVideoView:self.remoteVideoView];
             [self.rootVC.view insertSubview:self.remoteVideoView belowSubview:self.localVideoView];
             
