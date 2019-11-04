@@ -91,7 +91,7 @@
 - (void)goldNoTimer:(CDVInvokedUrlCommand *)command
 {
     [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] setterBeauty:command];
+    [[AVCallManager shareInstance] goldNoTimer:command];
 }
 
 - (void)muteRemoteAudio:(CDVInvokedUrlCommand *)command
