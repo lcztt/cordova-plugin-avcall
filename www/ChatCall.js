@@ -10,6 +10,11 @@ ChatCall.prototype.checkAuth = function (success, fail, params) {
     exec(success, fail, 'ChatCall', 'checkAuth', [params])
 };
 
+// 检查客户端音频权限，成功回调success，失败回调fail
+ChatCall.prototype.checkAudioAuth = function (success, fail, params) {
+    exec(success, fail, 'ChatCall', 'checkAudioAuth', [params])
+ };
+
 // 接听者在收到通话邀请后，接听或拒绝前，需要调用该方法播放铃声
 // 点击接听后，startCall 方法内部会主动关闭铃声
 // 点击拒绝后，需要调用 stopAudio 方法关闭铃声

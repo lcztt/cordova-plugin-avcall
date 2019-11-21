@@ -38,7 +38,7 @@
         }];
     } else {
         
-        [XCDevicePermission checkCameraPermission:^(BOOL granted) {
+        [XCDevicePermission checkMicrophonePermission:^(BOOL granted) {
             
             if (granted) {
                 
@@ -51,6 +51,22 @@
             }
         }];
     }
+}
+
+- (void)checkAudioAuth:(CDVInvokedUrlCommand *)command
+{
+    [XCDevicePermission checkMicrophonePermissionWaitForRequestResult:NO complection:^(BOOL granted) {
+        
+        if (granted) {
+            
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        } else {
+            
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
+    }];
 }
 
 - (void)playAudio:(CDVInvokedUrlCommand *)command
