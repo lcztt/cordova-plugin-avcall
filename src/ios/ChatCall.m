@@ -1,6 +1,6 @@
 #import <Cordova/CDV.h>
-#import "AVCallManager.h"
-#import "AVCallRingTool.h"
+#import "VideoChatInstance.h"
+#import "VideoChatRing.h"
 #import "XCDevicePermission.h"
 #import "AVCallDefines.h"
 
@@ -71,49 +71,49 @@
 
 - (void)playAudio:(CDVInvokedUrlCommand *)command
 {
-    [[AVCallRingTool shareManager] playRingWithRepeat:NO];
+    [[VideoChatRing shareManager] playRingWithRepeat:NO];
 }
 
 - (void)stopAudio:(CDVInvokedUrlCommand *)command
 {
-    [[AVCallRingTool shareManager] stopRingCall];
+    [[VideoChatRing shareManager] stopRingCall];
 }
 
 - (void)startCall:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] startAVCallWith:command];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] startAVCallWith:command];
 }
 
 - (void)stopCall:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] stopAVCallWith:command];
-    [AVCallManager releaseInstance];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] stopAVCallWith:command];
+    [VideoChatInstance releaseInstance];
 }
 
 - (void)switchCamera:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] switchCamera:command];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] switchCamera:command];
 }
 
 - (void)setterBeauty:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] setterBeauty:command];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] setterBeauty:command];
 }
 
 - (void)goldNoTimer:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] goldNoTimer:command];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] goldNoTimer:command];
 }
 
 - (void)muteRemoteAudio:(CDVInvokedUrlCommand *)command
 {
-    [AVCallManager shareInstance].commandDelegate = self.commandDelegate;
-    [[AVCallManager shareInstance] muteRemoteAudio:command];
+    [VideoChatInstance shareInstance].commandDelegate = self.commandDelegate;
+    [[VideoChatInstance shareInstance] muteRemoteAudio:command];
 }
 
 @end

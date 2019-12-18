@@ -1,5 +1,5 @@
 //
-//  AVCallInfoModel.h
+//  VideoChatInfo.h
 //  Solution
 //
 //  Created by 仇啟飞 on 2018/9/4.
@@ -9,7 +9,7 @@
 #import "AVCallDefines.h"
 
 
-@interface AVCallInfoModel : NSObject
+@interface VideoChatInfo : NSObject
 
 // 声网APPID
 @property (nonatomic, copy) NSString *app_id;

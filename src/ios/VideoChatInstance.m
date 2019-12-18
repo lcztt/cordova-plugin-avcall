@@ -1,19 +1,19 @@
 //
-//  AVCallManager.m
+//  VideoChatInstance.m
 //  Solution
 //
 //  Created by 仇啟飞 on 2018/9/4.
 //  Copyright © 2018年 Solution. All rights reserved.
 //
 
-#import "AVCallManager.h"
+#import "VideoChatInstance.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
-#import "AVCallInfoModel.h"
+#import "VideoChatInfo.h"
 #import "YYTimer.h"
-#import "AVCallVideoBeautyOptions.h"
-#import "AVCallVideoBeautySetterView.h"
-#import "AVCallRingTool.h"
+#import "VideoChatBeautyItem.h"
+#import "VideoChatSetView.h"
+#import "VideoChatRing.h"
 #import "XCDevicePermission.h"
 #import "UIView+AVCall.h"
 #import "MainViewController.h"
@@ -44,8 +44,8 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 #define kSmallVideoRect (CGRectMake(XCScreenWidth - kSmallVideoViewW - 15, kStatusBarHeight + 15, kSmallVideoViewW, kSmallVideoViewH))
 
 
-@interface AVCallManager ()
-<AgoraRtcEngineDelegate, AVCallVideoBeautySetterViewDelegate>
+@interface VideoChatInstance ()
+<AgoraRtcEngineDelegate, VideoChatSetViewDelegate>
 {
     struct {
         unsigned int hasJoinedChannel:1;
@@ -60,8 +60,8 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 @property (nonatomic, strong) UIView *localVideoView;
 
 @property (nonatomic, strong) AgoraRtcEngineKit *agoraKit;
-@property (nonatomic, strong) AVCallVideoBeautySetterView *beauthSetterView;
-@property (nonatomic, strong) AVCallVideoBeautyOptions *beauthParams;
+@property (nonatomic, strong) VideoChatSetView *beauthSetterView;
+@property (nonatomic, strong) VideoChatBeautyItem *beauthParams;
 
 @property (nonatomic, strong) YYTimer *activeTimer;
 @property (nonatomic, assign) NSUInteger totalChatTime;
@@ -70,7 +70,7 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *switchGesture;
 
-@property (nonatomic, strong) AVCallInfoModel *callInfo;
+@property (nonatomic, strong) VideoChatInfo *callInfo;
 
 @property (nonatomic, weak) UIViewController *rootVC;
 @property (nonatomic, weak) UIView *controlView;
@@ -78,13 +78,13 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 
 @end
 
-@implementation AVCallManager
+@implementation VideoChatInstance
 
-static AVCallManager *_shareInstance = nil;
+static VideoChatInstance *_shareInstance = nil;
 + (instancetype)shareInstance
 {
     if (!_shareInstance) {
-        _shareInstance = [[AVCallManager alloc] init];
+        _shareInstance = [[VideoChatInstance alloc] init];
         _shareInstance.countDownDuration = -1;
     }
     return _shareInstance;
@@ -130,7 +130,7 @@ static AVCallManager *_shareInstance = nil;
     self.command = command;
     
     NSDictionary *dict = command.arguments[0];
-    AVCallInfoModel *model = [[AVCallInfoModel alloc] init];
+    VideoChatInfo *model = [[VideoChatInfo alloc] init];
     self.callInfo = model;
     if (![dict isKindOfClass:[NSDictionary class]]) {
         NSDictionary *params = @{@"code":@(1), @"desc":@"参数不完整"};
@@ -439,7 +439,7 @@ static AVCallManager *_shareInstance = nil;
             [self playRingWithFileName:@"voip_call" type:nil loop:YES];
         } else {
             
-            [[AVCallRingTool shareManager] stopRingCall];
+            [[VideoChatRing shareManager] stopRingCall];
             [self startActiveTimer];
         }
     }
@@ -741,7 +741,7 @@ static AVCallManager *_shareInstance = nil;
 
 #pragma mark - AVCallBeauthSetterViewDelegate
 
-- (void)videoChatBeauthSetterViewDidChange:(AVCallVideoBeautySetterView *)view
+- (void)videoChatBeauthSetterViewDidChange:(VideoChatSetView *)view
 {
     [self.agoraKit setBeautyEffectOptions:self.beauthParams.isBeautyOn options:self.beauthParams.beautyOptions];
 }
@@ -901,10 +901,10 @@ static AVCallManager *_shareInstance = nil;
     return _switchGesture;
 }
 
-- (AVCallVideoBeautySetterView *)beauthSetterView
+- (VideoChatSetView *)beauthSetterView
 {
     if (!_beauthSetterView) {
-        _beauthSetterView = [[AVCallVideoBeautySetterView alloc] init];
+        _beauthSetterView = [[VideoChatSetView alloc] init];
         _beauthSetterView.beauthParams = self.beauthParams;
         _beauthSetterView.delegate = self;
     }
@@ -912,10 +912,10 @@ static AVCallManager *_shareInstance = nil;
     return _beauthSetterView;
 }
 
-- (AVCallVideoBeautyOptions *)beauthParams
+- (VideoChatBeautyItem *)beauthParams
 {
     if (!_beauthParams) {
-        _beauthParams = [AVCallVideoBeautyOptions defaultOptions];
+        _beauthParams = [VideoChatBeautyItem defaultOptions];
     }
     return _beauthParams;
 }

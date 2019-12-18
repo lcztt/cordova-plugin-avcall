@@ -1,12 +1,12 @@
 //
-//  AVCallVideoBeautyOptions.m
+//  VideoChatBeautyItem.m
 //  QingShu
 //
 //  Created by vitas on 2019/5/25.
 //  Copyright © 2019 Vitas. All rights reserved.
 //
 
-#import "AVCallVideoBeautyOptions.h"
+#import "VideoChatBeautyItem.h"
 
 #define kNSUserDefaultKey_isBeautyOn @"kNSUserDefaultKey_isBeautyOn"
 #define kNSUserDefaultKey_contrastLevel @"kNSUserDefaultKey_contrastLevel"
@@ -14,17 +14,17 @@
 #define kNSUserDefaultKey_smoothnessLevel @"kNSUserDefaultKey_smoothnessLevel"
 #define kNSUserDefaultKey_rednessLevel @"kNSUserDefaultKey_rednessLevel"
 
-@interface AVCallVideoBeautyOptions ()
+@interface VideoChatBeautyItem ()
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 
 @end
 
-@implementation AVCallVideoBeautyOptions
+@implementation VideoChatBeautyItem
 
 + (instancetype)defaultOptions
 {
-    return [[AVCallVideoBeautyOptions alloc] init];
+    return [[VideoChatBeautyItem alloc] init];
 }
 
 - (instancetype)init

@@ -1,15 +1,15 @@
 //
-//  AVCallVideoBeautySetterView.m
+//  VideoChatSetView.m
 //  OpenLive
 //
 //  Created by GongYuhua on 2019/3/26.
 //  Copyright © 2019 Agora. All rights reserved.
 //
 
-#import "AVCallVideoBeautySetterView.h"
+#import "VideoChatSetView.h"
 #import "UIView+AVCall.h"
 
-@interface AVCallVideoBeautySetterView ()
+@interface VideoChatSetView ()
 
 @property (nonatomic, strong) UIView *contentView;
 
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation AVCallVideoBeautySetterView
+@implementation VideoChatSetView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

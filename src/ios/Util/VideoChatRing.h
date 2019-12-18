@@ -1,5 +1,5 @@
 //
-//  AVCallRingTool.h
+//  VideoChatRing.h
 //  Solution
 //
 //  Created by 仇啟飞 on 2018/9/21.
@@ -10,11 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AVCallRingTool : NSObject
+@interface VideoChatRing : NSObject
 
 @property (nonatomic, assign) BOOL isPlayRing;
 
-+ (AVCallRingTool *)shareManager;
++ (VideoChatRing *)shareManager;
 
 - (void)playRingWithRepeat:(BOOL)isRepeat;
 - (void)stopRingCall;

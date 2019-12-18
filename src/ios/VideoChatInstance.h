@@ -1,5 +1,5 @@
 //
-//  AVCallManager.h
+//  VideoChatInstance.h
 //  Solution
 //
 //  Created by 仇啟飞 on 2018/9/4.
@@ -10,7 +10,7 @@
 #import <Cordova/CDV.h>
 
 
-@interface AVCallManager : NSObject
+@interface VideoChatInstance : NSObject
 
 + (instancetype)shareInstance;
 + (void)releaseInstance;

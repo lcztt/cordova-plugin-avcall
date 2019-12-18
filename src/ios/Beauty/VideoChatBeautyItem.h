@@ -1,5 +1,5 @@
 //
-//  AVCallVideoBeautyOptions.h
+//  VideoChatBeautyItem.h
 //  QingShu
 //
 //  Created by vitas on 2019/5/25.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AVCallVideoBeautyOptions : NSObject
+@interface VideoChatBeautyItem : NSObject
 
 + (instancetype)defaultOptions;
 

@@ -1,14 +1,14 @@
 //
-//  AVCallInfoModel.m
+//  VideoChatInfo.m
 //  Solution
 //
 //  Created by 仇啟飞 on 2018/9/4.
 //  Copyright © 2018年 Solution. All rights reserved.
 //
 
-#import "AVCallInfoModel.h"
+#import "VideoChatInfo.h"
 
-@implementation AVCallInfoModel
+@implementation VideoChatInfo
 
 - (instancetype)init
 {

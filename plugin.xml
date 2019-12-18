@@ -14,11 +14,11 @@
         </config-file>
         
         <header-file src="src/ios/AVCallDefines.h" />
-        <header-file src="src/ios/AVCallInfoModel.h" />
-        <header-file src="src/ios/AVCallManager.h" />
-        <header-file src="src/ios/Beauty/AVCallVideoBeautyOptions.h" />
-        <header-file src="src/ios/Beauty/AVCallVideoBeautySetterView.h" />
-        <header-file src="src/ios/Util/AVCallRingTool.h" />
+        <header-file src="src/ios/VideoChatInfo.h" />
+        <header-file src="src/ios/VideoChatInstance.h" />
+        <header-file src="src/ios/Beauty/VideoChatBeautyItem.h" />
+        <header-file src="src/ios/Beauty/VideoChatSetView.h" />
+        <header-file src="src/ios/Util/VideoChatRing.h" />
         <header-file src="src/ios/Util/UIAlertController+Additions.h" />
         <header-file src="src/ios/Util/UIView+AVCall.h" />
         <header-file src="src/ios/Util/XCDevicePermission.h" />
@@ -26,11 +26,11 @@
         <header-file src="src/ios/Util/YYTimer.h" />
 
         <source-file src="src/ios/ChatCall.m" />
-        <source-file src="src/ios/AVCallInfoModel.m" />
-        <source-file src="src/ios/AVCallManager.m" />
-        <source-file src="src/ios/Beauty/AVCallVideoBeautyOptions.m" />
-        <source-file src="src/ios/Beauty/AVCallVideoBeautySetterView.m" />
-        <source-file src="src/ios/Util/AVCallRingTool.m" />
+        <source-file src="src/ios/VideoChatInfo.m" />
+        <source-file src="src/ios/VideoChatInstance.m" />
+        <source-file src="src/ios/Beauty/VideoChatBeautyItem.m" />
+        <source-file src="src/ios/Beauty/VideoChatSetView.m" />
+        <source-file src="src/ios/Util/VideoChatRing.m" />
         <source-file src="src/ios/Util/UIAlertController+Additions.m" />
         <source-file src="src/ios/Util/UIView+AVCall.m" />
         <source-file src="src/ios/Util/XCDevicePermission.m" />
