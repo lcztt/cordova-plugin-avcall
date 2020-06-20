@@ -40,7 +40,7 @@
         <resource-file src="src/ios/resource/voip_call.caf" />
 
         <pods-config ios-min-version="9.0" use-frameworks="true"></pods-config>
-        <pod name="AgoraRtcEngine_iOS" version="2.4.0.1" />
+        <pod name="AgoraRtcEngine_iOS" version="3.0.1" />
     </platform>
 
     <platform name="android">

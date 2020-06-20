@@ -8,9 +8,9 @@
 
 #import "VideoChatInstance.h"
 #import <AVFoundation/AVFoundation.h>
-#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 #import "VideoChatInfo.h"
-#import "YYTimer.h"
+#import "XCWeakTimer.h"
 #import "VideoChatBeautyItem.h"
 #import "VideoChatSetView.h"
 #import "VideoChatRing.h"
@@ -63,7 +63,7 @@ OS_UNUSED OS_ALWAYS_INLINE static  bool AVCallIsBangsScreen()
 @property (nonatomic, strong) VideoChatSetView *beauthSetterView;
 @property (nonatomic, strong) VideoChatBeautyItem *beauthParams;
 
-@property (nonatomic, strong) YYTimer *activeTimer;
+@property (nonatomic, strong) NSTimer *activeTimer;
 @property (nonatomic, assign) NSUInteger totalChatTime;
 @property (nonatomic, assign) NSInteger countDownDuration;
 
@@ -618,7 +618,8 @@ static VideoChatInstance *_shareInstance = nil;
         [self.activeTimer invalidate];
         self.activeTimer = nil;
     }
-    self.activeTimer = [YYTimer timerWithTimeInterval:1 target:self selector:@selector(chatTimerHandler) repeats:YES];
+    self.activeTimer = [XCWeakTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(chatTimerHandler) userInfo:nil repeats:YES];
+//    self.activeTimer = [YYTimer timerWithTimeInterval:1 target:self selector:@selector(chatTimerHandler) repeats:YES];
     self.totalChatTime = 0;
 }
 
