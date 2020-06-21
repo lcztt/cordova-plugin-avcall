@@ -21,15 +21,18 @@ typedef NS_ENUM(NSInteger, AVCallHangupBy) {
 // params 基础参数：{"room_id":房间号}
 typedef NS_ENUM(NSInteger, AVCallStatusCode) {
     AVCallStatusCodeNone,
-    AVCallStatusCodeJoinChannel = 1, // 加入房间
+    AVCallStatusCodeSelfJoinChannel = 1, // 自己加入房间
     AVCallStatusCodeReceiveRemoteFirstFrame = 2, // 接收到对方数据
-    AVCallStatusCodeOffline = 3, // 对方离开房间（主动退出或对方网络原因导致连接中断），params:{"reason":(退出原因：0，主动挂断 1，连接中断), "uid":(退出者uid)}
+    AVCallStatusCodeRemoteLeaveChannel = 3, // 对方离开房间（主动退出或对方网络原因导致连接中断），params:{"reason":(退出原因：0，主动挂断 1，连接中断), "uid":(退出者uid)}
     AVCallStatusCodeLostConnection = 4, // 自己声网连接中断
     AVCallStatusCodeSDKError = 5, // 声网SDK错误回调，params:{"errorCode":(声网SDK提供的错误码)};
     AVCallStatusCodeHeart = 6, // 心跳回调
     AVCallStatusCodeScreenshot = 7, // 截图，params:{"img_path":图片地址}
     AVCallStatusCodeDuration = 8, // 通话时长，params:{"duration":通话总秒数}
     AVCallStatusCodeCountDown = 9, // 倒计时，params:{"duration":剩余通话秒数}
+    AVCallStatusCodeRemoteJoinChannel = 10, // 对方加入房间 params:{"uid":(退出者uid)}
+    AVCallStatusCodeSelfRejoinChannel = 11, // 自己再次加入房间
+    AVCallStatusCodeSelfLeaveChannel = 12, // 自己离开房间
 };
 
 

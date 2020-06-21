@@ -109,7 +109,7 @@ static VideoChatInstance *_shareInstance = nil;
     }
     
     if (code == AVCallStatusCodeSDKError ||
-        code == AVCallStatusCodeOffline ||
+        code == AVCallStatusCodeRemoteLeaveChannel ||
         code == AVCallStatusCodeLostConnection) {
         
         [UIApplication sharedApplication].idleTimerDisabled = NO;
@@ -415,6 +415,8 @@ static VideoChatInstance *_shareInstance = nil;
 
 #pragma mark - AgoraRtcEngineKit delegate
 
+#pragma mark - local
+
 /**
  * 加入频道
  */
@@ -430,9 +432,9 @@ static VideoChatInstance *_shareInstance = nil;
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    [self callbackJSWith:AVCallStatusCodeSelfJoinChannel params:@{}];
+    
     if (!self.callInfo.is_admin) {
-        
-        [self callbackJSWith:AVCallStatusCodeJoinChannel params:@{}];
         
         if (self.callInfo.is_self_start) {
             
@@ -447,6 +449,35 @@ static VideoChatInstance *_shareInstance = nil;
     NSDictionary *params = @{@"code":@(1), @"desc":@"加入房间"};
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:params];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
+}
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didRejoinChannel:(NSString *)channel withUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
+{
+    NSDictionary *params = @{@"uid":@(uid)};
+    [self callbackJSWith:AVCallStatusCodeSelfRejoinChannel params:params];
+}
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraChannelStats *)stats
+{
+    NSLog(@"RTC：离开房间...");
+    NSDictionary *params = @{};
+    [self callbackJSWith:AVCallStatusCodeSelfLeaveChannel params:params];
+}
+
+#pragma mark - remote
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed
+{
+    NSDictionary *params = @{@"uid":@(uid)};
+    [self callbackJSWith:AVCallStatusCodeRemoteJoinChannel params:params];
+}
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason
+{
+    NSLog(@"RTC：离开了频道 %@...", @(uid));
+    
+    NSDictionary *params = @{@"reason":@(reason), @"uid":@(uid)};
+    [self callbackJSWith:AVCallStatusCodeRemoteLeaveChannel params:params];
 }
 
 /**
@@ -536,35 +567,6 @@ static VideoChatInstance *_shareInstance = nil;
                     [self startActiveTimer];
                 }
             }
-        }
-    }
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraChannelStats *)stats
-{
-    NSLog(@"RTC：离开房间...");
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason
-{
-    NSLog(@"RTC：离开了频道 %@...", @(uid));
-    
-    if (self.callInfo.is_admin) {
-        
-        NSDictionary *params = @{@"reason":@(reason), @"uid":@(uid)};
-        [self callbackJSWith:AVCallStatusCodeOffline params:params];
-    } else {
-        
-        if (uid == self.callInfo.remote_uid) {
-            
-            NSDictionary *params = @{@"reason":@(reason), @"uid":@(uid)};
-            if (reason == AgoraUserOfflineReasonQuit) {
-                NSLog(@"原因：挂断");
-            } else if (reason == AgoraUserOfflineReasonDropped) {
-                NSLog(@"原因：掉线");
-            }
-            
-            [self callbackJSWith:AVCallStatusCodeOffline params:params];
         }
     }
 }
