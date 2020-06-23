@@ -23,7 +23,6 @@
         <header-file src="src/ios/Util/UIView+AVCall.h" />
         <header-file src="src/ios/Util/XCDevicePermission.h" />
         <header-file src="src/ios/Util/XCWeakTimer.h" />
-        <header-file src="src/ios/Util/YYTimer.h" />
 
         <source-file src="src/ios/ChatCall.m" />
         <source-file src="src/ios/VideoChatInfo.m" />
@@ -35,7 +34,6 @@
         <source-file src="src/ios/Util/UIView+AVCall.m" />
         <source-file src="src/ios/Util/XCDevicePermission.m" />
         <source-file src="src/ios/Util/XCWeakTimer.m" />
-        <source-file src="src/ios/Util/YYTimer.m" />
 
         <resource-file src="src/ios/resource/voip_call.caf" />
 
