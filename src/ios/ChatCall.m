@@ -71,7 +71,11 @@
 
 - (void)playAudio:(CDVInvokedUrlCommand *)command
 {
-    [[VideoChatRing shareManager] playRingWithRepeat:NO];
+    if ([[VideoChatInstance shareInstance] isInRoom]) {
+        [[VideoChatInstance shareInstance] playRingAfterInRoom];
+    } else {
+        [[VideoChatRing shareManager] playRingWithRepeat:NO];
+    }
 }
 
 - (void)stopAudio:(CDVInvokedUrlCommand *)command

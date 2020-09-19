@@ -31,4 +31,6 @@
 @property (nonatomic, assign, readonly) NSInteger local_uid;
 @property (nonatomic, assign, readonly) NSInteger remote_uid;
 
+@property (nonatomic, assign) BOOL hidden_view;
+
 @end

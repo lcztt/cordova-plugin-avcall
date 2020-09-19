@@ -160,6 +160,8 @@ static VideoChatInstance *_shareInstance = nil;
     model.receive_uid = [userInfo[@"receive_uid"] integerValue];
     model.self_uid = [userInfo[@"self_uid"] integerValue];
     
+    model.hidden_view = [userInfo[@"hidden_view"] boolValue];
+    
     NSInteger screen_interval = [call[@"screen_interval"] integerValue];
     if (screen_interval > 0) {
         model.screen_interval = screen_interval;
@@ -290,13 +292,15 @@ static VideoChatInstance *_shareInstance = nil;
         [self setupLocalVideoView:self.localVideoView];
         self.localVideoView.alpha = 0;
         [self.rootVC.view insertSubview:self.localVideoView belowSubview:self.controlView];
-        [UIView animateWithDuration:0.25 animations:^{
-            self.localVideoView.alpha = 1;
-        } completion:^(BOOL finished) {
-            
-        }];
         
-        [self.agoraKit startPreview];
+        if (!self.callInfo.hidden_view) {
+            [UIView animateWithDuration:0.25 animations:^{
+                self.localVideoView.alpha = 1;
+            } completion:^(BOOL finished) {
+                
+            }];
+            [self.agoraKit startPreview];
+        }
     }
     
     [self joinChannel];
@@ -438,7 +442,7 @@ static VideoChatInstance *_shareInstance = nil;
         
         if (self.callInfo.is_self_start) {
             
-            [self playRingWithFileName:@"voip_call" type:nil loop:YES];
+//            [self playRingAfterInRoom];
         } else {
             
             [[VideoChatRing shareManager] stopRingCall];
@@ -524,6 +528,15 @@ static VideoChatInstance *_shareInstance = nil;
                 [self.agoraKit stopAllEffects];
                 
                 [self startActiveTimer];
+            }
+            
+            if (self.callInfo.hidden_view) {
+                [UIView animateWithDuration:0.25 animations:^{
+                    self.localVideoView.alpha = 1;
+                } completion:^(BOOL finished) {
+                    
+                }];
+                [self.agoraKit startPreview];
             }
             
             // 设置对方画面
@@ -835,22 +848,27 @@ static VideoChatInstance *_shareInstance = nil;
 
 #pragma mark - util
 
-- (void)playRingWithFileName:(NSString *)fileName type:(NSString *)type loop:(BOOL)isLoop
+- (BOOL)isInRoom
 {
-    if (!type) {
-        type = @"caf";
+    if ([self.agoraKit getConnectionState] == AgoraConnectionStateConnected) {
+        return true;
     }
     
-    NSString *ringPath = [[NSBundle mainBundle] pathForResource:fileName ofType:type];
+    return false;
+}
+
+- (void)playRingAfterInRoom
+{
+    NSString *ringPath = [[NSBundle mainBundle] pathForResource:@"voip_call" ofType:@"caf"];
     [self.agoraKit stopAllEffects];
     if (ringPath) {
-        int ret = [self.agoraKit playEffect:0
-                                   filePath:ringPath
-                                  loopCount:isLoop ? -1 : 0
-                                      pitch:1
-                                        pan:0
-                                       gain:100
-                                    publish:NO];
+        [self.agoraKit playEffect:0
+                         filePath:ringPath
+                        loopCount:-1
+                            pitch:1
+                              pan:0
+                             gain:100
+                          publish:NO];
     }
 }
 
