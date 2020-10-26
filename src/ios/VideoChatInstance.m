@@ -272,6 +272,9 @@ static VideoChatInstance *_shareInstance = nil;
 - (void)startCall
 {
     MainViewController *vc = (MainViewController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        vc = [[(UINavigationController *)vc viewControllers] lastObject];
+    }
     if (![vc isKindOfClass:[MainViewController class]]) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:@{}];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
